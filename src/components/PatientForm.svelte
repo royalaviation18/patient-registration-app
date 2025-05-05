@@ -1,20 +1,41 @@
 <script>
-    import db from '../lib/db.js';
+    import db, { initDB } from '../lib/db.js';
   
     let name = '';
     let age = '';
     let gender = 'Male';
+    let ready = false;
+  
+    initDB().then(() => {
+      ready = true;
+    });
   
     async function register() {
+      if (!ready) {
+        alert('Database not ready. Please wait...');
+        return;
+      }
+  
       if (!name || !age) {
         alert('Please fill all fields');
         return;
       }
-      await db.query("INSERT INTO patients (name, age, gender) VALUES (?, ?, ?)", [name, age, gender]);
-      name = '';
-      age = '';
-      gender = 'Male';
-      dispatchEvent(new Event('patient-added'));
+  
+      try {
+        const insertSQL = `
+          INSERT INTO patients (name, age, gender)
+          VALUES ('${name}', ${parseInt(age)}, '${gender}')
+        `;
+        await db.exec(insertSQL);
+  
+        name = '';
+        age = '';
+        gender = 'Male';
+        dispatchEvent(new Event('patient-added'));
+      } catch (err) {
+        console.error('Registration error:', err);
+        alert('Error: ' + err.message);
+      }
     }
   </script>
   
@@ -35,7 +56,7 @@
         <option>Other</option>
       </select>
     </label>
-    <button type="submit">Register</button>
+    <button type="submit" disabled={!ready}>Register</button>
   </form>
   
   <style>
@@ -46,7 +67,8 @@
       max-width: 300px;
     }
   
-    input, select {
+    input,
+    select {
       padding: 0.5rem;
       border: 1px solid #ccc;
       border-radius: 4px;
@@ -59,6 +81,11 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
+    }
+  
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
     }
   </style>
   
