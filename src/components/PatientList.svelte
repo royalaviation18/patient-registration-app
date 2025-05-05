@@ -3,7 +3,7 @@
     import db from "../lib/db.js";
 
     let patients = [];
-    let whereClause = ""; // User-defined query
+    let whereClause = ""; 
     let errorMessage = "";
 
     const load = async () => {
@@ -26,10 +26,23 @@
         load();
     };
 
+    let channel;
+
     onMount(() => {
         load();
+
+        // Listen for messages from other tabs
+        channel = new BroadcastChannel("patient-sync");
+        channel.onmessage = (event) => {
+            if (event.data?.type === "patient-added") {
+                load();
+            }
+        };
         window.addEventListener("patient-added", handlePatientAdded);
+
         return () => {
+            // Cleanup on component destroy
+            channel.close();
             window.removeEventListener("patient-added", handlePatientAdded);
         };
     });
@@ -106,5 +119,26 @@
     .error {
         color: red;
         font-size: 0.9rem;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        max-width: 100%;
+        padding: 1rem;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 0.5rem;
+        text-align: left;
+    }
+
+    th {
+        background-color: black;
     }
 </style>

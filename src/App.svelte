@@ -21,8 +21,4 @@
     text-align: center;
     margin-bottom: 2rem;
   }
-
-  .spacing {
-    margin-top: 2rem;
-  }
 </style>
