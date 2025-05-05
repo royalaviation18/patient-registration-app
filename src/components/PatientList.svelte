@@ -1,22 +1,29 @@
 <script>
     import { onMount } from 'svelte';
     import db from '../lib/db.js';
-    
+  
     let patients = [];
-    
+    let whereClause = ''; // User-defined query
+    let errorMessage = '';
+  
     const load = async () => {
       try {
-        const res = await db.query("SELECT * FROM patients");
+        errorMessage = '';
+        const baseSQL = 'SELECT * FROM patients';
+        const fullSQL = whereClause.trim() ? `${baseSQL} WHERE ${whereClause}` : baseSQL;
+  
+        const res = await db.query(fullSQL);
         patients = res.rows;
       } catch (error) {
+        errorMessage = 'Invalid query. Please check your syntax.';
         console.error('Failed to load patients:', error);
       }
     };
-    
+  
     const handlePatientAdded = () => {
       load();
     };
-    
+  
     onMount(() => {
       load();
       window.addEventListener('patient-added', handlePatientAdded);
@@ -25,6 +32,20 @@
       };
     });
   </script>
+  
+  <div class="filter-container">
+    <label for="whereInput">Filter patients (SQL WHERE clause):</label>
+    <input
+      type="text"
+      id="whereInput"
+      bind:value={whereClause}
+      placeholder="e.g. age > 30 AND gender = 'Female'"
+      on:input={load}
+    />
+    {#if errorMessage}
+      <div class="error">{errorMessage}</div>
+    {/if}
+  </div>
   
   <div class="table-container">
     <table>
@@ -62,58 +83,27 @@
   </div>
   
   <style>
-    .table-container {
+    .filter-container {
+      max-width: 800px;
+      margin: 1rem auto;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 2rem;
-      padding: 0 1rem;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1rem;
     }
   
-    table {
-      border-collapse: collapse;
+    input[type='text'] {
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
       width: 100%;
-      max-width: 1200px;
+      box-sizing: border-box;
+    }
+  
+    .error {
+      color: red;
       font-size: 0.9rem;
-      background-color: #fff;
-      color: #333;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-  
-    th, td {
-      border: 1px solid #ddd;
-      padding: 12px 15px;
-      text-align: left;
-    }
-  
-    th {
-      background-color: #646cff;
-      color: white;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-  
-    td {
-      vertical-align: top;
-    }
-  
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-  
-    tr:hover {
-      background-color: #f1f7ff;
-    }
-  
-    /* Optional: Responsive styling for smaller screens */
-    @media (max-width: 768px) {
-      table {
-        font-size: 0.8rem;
-      }
-  
-      th, td {
-        padding: 8px 10px;
-      }
     }
   </style>
   
