@@ -10,7 +10,7 @@
         alert('Please fill all fields');
         return;
       }
-      await db.prepare("INSERT INTO patients (name, age, gender) VALUES (?, ?, ?)").run(name, age, gender);
+      await db.query("INSERT INTO patients (name, age, gender) VALUES (?, ?, ?)", [name, age, gender]);
       name = '';
       age = '';
       gender = 'Male';

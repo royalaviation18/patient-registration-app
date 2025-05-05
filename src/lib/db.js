@@ -1,10 +1,10 @@
-import { Pglite } from 'pglite';
+import { PGlite } from '@electric-sql/pglite';
 
-const db = new Pglite('patients.db', { mode: 'persistent' });
+const db = new PGlite('idb://my-pgdata'); // Using IndexedDB for persistence
 
 await db.exec(`
   CREATE TABLE IF NOT EXISTS patients (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     age INTEGER,
     gender TEXT

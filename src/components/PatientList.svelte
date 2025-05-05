@@ -3,11 +3,11 @@
     let patients = [];
   
     async function load() {
-      const res = await db.prepare("SELECT * FROM patients").all();
+      const res = await db.query("SELECT * FROM patients");
       patients = res.rows;
     }
   
-    // reload list if new patient is added
+    // Reload list if new patient is added
     window.addEventListener('patient-added', load);
   
     load();
