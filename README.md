@@ -1,47 +1,57 @@
-# Svelte + Vite
 
-This template should help get you started developing with Svelte in Vite.
+# 🏥 Patient Registration App
 
-## Recommended IDE Setup
+A **frontend-only patient registration system** built with **Svelte**, **Vite**, and **PGlite** (SQLite over IndexedDB) — deployed on **Vercel**.
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+> 🔗 **Live Demo:** [https://patient-registration-app-two.vercel.app/](https://patient-registration-app-two.vercel.app/)
 
-## Need an official Svelte framework?
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+## 📦 Features
 
-## Technical considerations
+- Register new patients with essential personal and emergency details.
+- Query patient records using **raw SQL**.
+- Data is persisted across **page refreshes**.
+- Supports use across **multiple browser tabs** simultaneously using `@electric-sql/pglite`.
+- Fully client-side — no backend needed.
 
-**Why use this over SvelteKit?**
+---
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+## 🚀 Setup Instructions
 
-This template contains as little as possible to get started with Vite + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+To run the app locally:
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
-
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
-
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
-
-**Why include `.vscode/extensions.json`?**
-
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
-
-**Why enable `checkJs` in the JS template?**
-
-It is likely that most cases of changing variable types in runtime are likely to be accidental, rather than deliberate. This provides advanced typechecking out of the box. Should you like to take advantage of the dynamically-typed nature of JavaScript, it is trivial to change the configuration.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/sveltejs/svelte-hmr/tree/master/packages/svelte-hmr#preservation-of-local-state).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```js
-// store.js
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+```bash
+git clone https://github.com/royalaviation18/patient-registration-app.git
+cd patient-registration-app
+npm install
+npm run dev
 ```
+
+## 🔍 Search Functionality (SQL-based)
+You can search patients using SQL WHERE-style expressions in the app's search input.
+
+### Examples:
+
+| Field            | Sample SQL Input                                                                |
+| ----------------- | ------------------------------------------------------------------ |
+| Full Name  |  name LIKE '%john%' |
+| Date of Birth  | dob = '1990-05-01' |
+| Age | age = 30 |
+| Gender | gender = 'Female' |
+| Martial Status | marital_status = 'Married' |
+| Phone Number | gphone = '6355380271' |
+| Email | email LIKE '%gmail.com' |
+| Emergency Contact Name | emergency_name LIKE '%susan%' |
+| Emergency Contact Phone | emergency_phone = '9876543210' |
+| Emergency Contact Relation | emergency_relation = 'Brother' |
+
+
+## 🛠️ Tech Stack
+
+* Svelte — reactive frontend framework
+
+* Vite — blazing-fast build tool
+
+* PGlite — SQLite in the browser via IndexedDB
+
+* Vercel — deployment platform
