@@ -1,6 +1,6 @@
 <script>
-  import PatientForm from './components/PatientForm.svelte';
-  import PatientList from './components/PatientList.svelte';
+  import PatientForm from "./components/PatientForm.svelte";
+  import PatientList from "./components/PatientList.svelte";
 </script>
 
 <main>
