@@ -5,12 +5,12 @@ export default defineConfig({
   base: './',
   plugins: [svelte()],
   optimizeDeps: {
-    exclude: ['@electric-sql/pglite'],
+    include: ['@electric-sql/pglite'], 
   },
   build: {
     outDir: 'dist',
     rollupOptions: {
-      external: ['@electric-sql/pglite'],
+      external: [], 
     },
   },
 });
