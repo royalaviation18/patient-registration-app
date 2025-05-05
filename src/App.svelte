@@ -15,6 +15,7 @@
     font-family: sans-serif;
     max-width: 800px;
     margin: auto;
+    font-size: small
   }
 
   h1 {

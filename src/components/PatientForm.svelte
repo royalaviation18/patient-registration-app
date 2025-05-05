@@ -142,7 +142,6 @@
             const channel = new BroadcastChannel("patient-sync");
             channel.postMessage({ type: "patient-added" });
             dispatchEvent(new Event("patient-added"));
-            
         } catch (err) {
             console.error("Registration error:", err);
         }
