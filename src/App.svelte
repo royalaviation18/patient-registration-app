@@ -13,12 +13,16 @@
   main {
     padding: 2rem;
     font-family: sans-serif;
-    max-width: 600px;
+    max-width: 800px;
     margin: auto;
   }
 
   h1 {
     text-align: center;
     margin-bottom: 2rem;
+  }
+
+  .spacing {
+    margin-top: 2rem;
   }
 </style>
